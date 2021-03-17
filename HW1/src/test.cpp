@@ -150,3 +150,15 @@ TEST(Erase, ALotOfIntAndCharErase3Int) {
       Erase<Erase<Erase<TypeList<int, char, int, char, int, char, int, char>, int>::Result, int>::Result, int>::Result
   >::PrintTypeList()), "char char char int char ");
 }
+
+TEST(Erase, Empty) {
+  EXPECT_EQ((PrintUtil<
+      Erase<Erase<Erase<TypeList<>, int>::Result, int>::Result, int>::Result
+  >::PrintTypeList()), "");
+}
+
+TEST(Erase, ListDoesntContainType) {
+  EXPECT_EQ((PrintUtil<
+      Erase<Erase<TypeList<int, std::string, char>, float>::Result, double>::Result
+  >::PrintTypeList()), "int string char ");
+}
