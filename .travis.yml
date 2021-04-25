@@ -10,15 +10,15 @@ compiler:
   - gcc
 
 script:
-  - echo "________TypeListErase___________Start_________"
+  - echo "________HW_tests___________Start_________"
   - cd HW1
   - mkdir cmake-build
   - cd cmake-build
   - cmake ../
   - make
-  - ./TypeListErase
+  - ./HW
   - cd ../..
-  - echo "________TypeListErase___________End___________"
+  - echo "________HW_tests___________End___________"
 
 notifications:
   email:
@@ -26,3 +26,7 @@ notifications:
       - grib.a@phystech.edu
     on_success: change
     on_failure: always
+
+branches:
+    only:
+    - master
