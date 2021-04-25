@@ -4,6 +4,7 @@
 #include "TypeList.hpp"
 #include "Length.hpp"
 #include "Erase.hpp"
+#include "IArmyFactory.hpp"
 
 template<typename X>
 std::string PrintType() {
@@ -66,99 +67,117 @@ TEST(PrintTypeList, Empty) {
   >::PrintTypeList()), "");
 }
 
-TEST(Length, All) {
+TEST(TypeListLength, All) {
   EXPECT_EQ((Length<
       TypeList<int, std::string, char>
   >::value), 3);
 }
 
-TEST(Length, Char) {
+TEST(TypeListLength, Char) {
   EXPECT_EQ((Length<
       TypeList<char>
   >::value), 1);
 }
 
-TEST(Length, Empty) {
+TEST(TypeListLength, Empty) {
   EXPECT_EQ((Length<
       TypeList<>
   >::value), 0);
 }
 
-TEST(Length, NullType) {
+TEST(TypeListLength, NullType) {
   EXPECT_EQ((Length<
       TypeList<>
   >::value), 0);
 }
 
-TEST(Erase, Int) {
+TEST(TypeListErase, Int) {
   EXPECT_EQ((PrintUtil<
       Erase<TypeList<int, std::string, char>, int>::Result
   >::PrintTypeList()), "string char ");
 }
 
-TEST(Erase, String) {
+TEST(TypeListErase, String) {
   std::vector<Erase<TypeList<int, std::string, char>, std::string>::Result> q;
   EXPECT_EQ((PrintUtil<
       Erase<TypeList<int, std::string, char>, std::string>::Result
   >::PrintTypeList()), "int char ");
 }
 
-TEST(Erase, Char) {
+TEST(TypeListErase, Char) {
   EXPECT_EQ((PrintUtil<
       Erase<TypeList<int, std::string, char>, char>::Result
   >::PrintTypeList()), "int string ");
 }
 
-TEST(Erase, IntString) {
+TEST(TypeListErase, IntString) {
   EXPECT_EQ((PrintUtil<
       Erase<Erase<TypeList<int, std::string, char>, int>::Result, std::string>::Result
   >::PrintTypeList()), "char ");
 }
 
-TEST(Erase, IntChar) {
+TEST(TypeListErase, IntChar) {
   EXPECT_EQ((PrintUtil<
       Erase<Erase<TypeList<int, std::string, char>, int>::Result, char>::Result
   >::PrintTypeList()), "string ");
 }
 
-TEST(Erase, StringChar) {
+TEST(TypeListErase, StringChar) {
   EXPECT_EQ((PrintUtil<
       Erase<Erase<TypeList<int, std::string, char>, char>::Result, std::string>::Result
   >::PrintTypeList()), "int ");
 }
 
-TEST(Erase, All) {
+TEST(TypeListErase, All) {
   EXPECT_EQ((PrintUtil<
       Erase<Erase<Erase<TypeList<int, std::string, char>, char>::Result, std::string>::Result, int>::Result
   >::PrintTypeList()), "");
 }
 
-TEST(Erase, ALotOfIntAndCharEraseChar) {
+TEST(TypeListErase, ALotOfIntAndCharEraseChar) {
   EXPECT_EQ((PrintUtil<
       Erase<TypeList<int, char, int, char, int, char, int, char>, char>::Result
   >::PrintTypeList()), "int int char int char int char ");
 }
 
-TEST(Erase, ALotOfIntAndCharEraseInt) {
+TEST(TypeListErase, ALotOfIntAndCharEraseInt) {
   EXPECT_EQ((PrintUtil<
       Erase<TypeList<int, char, int, char, int, char, int, char>, int>::Result
   >::PrintTypeList()), "char int char int char int char ");
 }
 
-TEST(Erase, ALotOfIntAndCharErase3Int) {
+TEST(TypeListErase, ALotOfIntAndCharErase3Int) {
   EXPECT_EQ((PrintUtil<
       Erase<Erase<Erase<TypeList<int, char, int, char, int, char, int, char>, int>::Result, int>::Result, int>::Result
   >::PrintTypeList()), "char char char int char ");
 }
 
-TEST(Erase, Empty) {
+TEST(TypeListErase, Empty) {
   EXPECT_EQ((PrintUtil<
       Erase<Erase<Erase<TypeList<>, int>::Result, int>::Result, int>::Result
   >::PrintTypeList()), "");
 }
 
-TEST(Erase, ListDoesntContainType) {
+TEST(TypeListErase, ListDoesntContainType) {
   EXPECT_EQ((PrintUtil<
       Erase<Erase<TypeList<int, std::string, char>, float>::Result, double>::Result
   >::PrintTypeList()), "int string char ");
+}
+
+TEST(Factory, CheckOutputTypeInfantry) {
+  IArmyFactory factory;
+  auto infantry = std::make_shared<Infantry>();
+  EXPECT_EQ(typeid(factory.Create<Infantry>()), typeid(infantry));
+}
+
+TEST(Factory, CheckOutputTypeArcher) {
+  IArmyFactory factory;
+  auto archer = std::make_shared<Archer>();
+  EXPECT_EQ(typeid(factory.Create<Archer>()), typeid(archer));
+}
+
+TEST(Factory, CheckOutputTypeCavalry) {
+  IArmyFactory factory;
+  auto cavalry = std::make_shared<Cavalry>();
+  EXPECT_EQ(typeid(factory.Create<Cavalry>()), typeid(cavalry));
 }
