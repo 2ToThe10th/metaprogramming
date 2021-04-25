@@ -5,6 +5,7 @@
 #include "Length.hpp"
 #include "Erase.hpp"
 #include "IArmyFactory.hpp"
+#include "CFactoryUnit.hpp"
 
 template<typename X>
 std::string PrintType() {
@@ -164,20 +165,50 @@ TEST(TypeListErase, ListDoesntContainType) {
   >::PrintTypeList()), "int string char ");
 }
 
-TEST(Factory, CheckOutputTypeInfantry) {
+TEST(IArmyFactory, CheckOutputTypeInfantry) {
   IArmyFactory factory;
   auto infantry = std::make_shared<Infantry>();
   EXPECT_EQ(typeid(factory.Create<Infantry>()), typeid(infantry));
 }
 
-TEST(Factory, CheckOutputTypeArcher) {
+TEST(IArmyFactory, CheckOutputTypeArcher) {
   IArmyFactory factory;
   auto archer = std::make_shared<Archer>();
   EXPECT_EQ(typeid(factory.Create<Archer>()), typeid(archer));
 }
 
-TEST(Factory, CheckOutputTypeCavalry) {
+TEST(IArmyFactory, CheckOutputTypeCavalry) {
   IArmyFactory factory;
   auto cavalry = std::make_shared<Cavalry>();
   EXPECT_EQ(typeid(factory.Create<Cavalry>()), typeid(cavalry));
+}
+
+TEST(CArmyFactory, CheckOutputTypeInfantry) {
+  CArmyFactory factory;
+  auto infantry = new Infantry();
+  auto created = factory.Create<Infantry, std::allocator>();
+  EXPECT_EQ(typeid(created), typeid(infantry));
+  EXPECT_EQ(created->getColor(), "red");
+  delete infantry;
+  delete created;
+}
+
+TEST(CArmyFactory, CheckOutputTypeArcher) {
+  CArmyFactory factory;
+  auto archer = new Archer();
+  auto created = factory.Create<Archer, std::allocator>();
+  EXPECT_EQ(typeid(created), typeid(archer));
+  EXPECT_EQ(created->getColor(), "red");
+  delete archer;
+  delete created;
+}
+
+TEST(CArmyFactory, CheckOutputTypeCavalry) {
+  CArmyFactory factory;
+  auto cavalry = new Cavalry();
+  auto created = factory.Create<Cavalry, std::allocator>();
+  EXPECT_EQ(typeid(created), typeid(cavalry));
+  EXPECT_EQ(created->getColor(), "red");
+  delete cavalry;
+  delete created;
 }

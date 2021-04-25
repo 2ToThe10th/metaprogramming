@@ -8,6 +8,13 @@
 
 Soldier::Soldier(std::string type) : type_(std::move(type)) {}
 
+void Soldier::setColor(std::string color) {
+  color_ = std::move(color);
+}
+const std::string &Soldier::getColor() {
+  return color_;
+}
+
 Infantry::Infantry() : Soldier("Infantry") {}
 
 Archer::Archer() : Soldier("Archer") {}

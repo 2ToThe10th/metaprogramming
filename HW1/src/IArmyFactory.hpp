@@ -8,22 +8,26 @@
 #include <string>
 #include <memory>
 class Soldier {
+ public:
+  void setColor(std::string color);
+  const std::string& getColor();
  protected:
   explicit Soldier(std::string type);
   std::string type_;
+  std::string color_;
 };
 
-class Infantry: Soldier {
+class Infantry: public Soldier {
  public:
   Infantry();
 };
 
-class Archer: Soldier {
+class Archer: public Soldier {
  public:
   Archer();
 };
 
-class Cavalry: Soldier {
+class Cavalry: public Soldier {
  public:
   Cavalry();
 };
