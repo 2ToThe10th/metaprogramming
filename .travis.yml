@@ -10,7 +10,7 @@ compiler:
   - gcc
 
 script:
-  - echo "________HW_tests___________Start_________"
+  - echo "________HW________tests___________Start_________"
   - cd HW1and2
   - mkdir cmake-build
   - cd cmake-build
@@ -18,7 +18,16 @@ script:
   - make
   - ./HW
   - cd ../..
-  - echo "________HW_tests___________End___________"
+  - echo "________HW________tests___________End___________"
+  - echo "________Singleton_tests___________Start_________"
+  - cd Singleton
+  - mkdir cmake-build
+  - cd cmake-build
+  - cmake ../
+  - make
+  - ./Singleton
+  - cd ../..
+  - echo "________Singleton_tests___________End___________"
 
 notifications:
   email:
