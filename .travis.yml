@@ -11,7 +11,7 @@ compiler:
 
 script:
   - echo "________HW_tests___________Start_________"
-  - cd HW1
+  - cd HW1and2
   - mkdir cmake-build
   - cd cmake-build
   - cmake ../
